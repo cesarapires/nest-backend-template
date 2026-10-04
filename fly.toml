@@ -1,0 +1,32 @@
+app = 'nest-backend-template'
+primary_region = 'gru'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[deploy]
+  release_command = 'npm run migration:run:prod'
+
+[env]
+  PORT = '8080'
+  LOG_LEVEL = 'info'
+  LOG_PRETTY = 'false'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    method = 'GET'
+    path = '/api/v1/health'
+    interval = '30s'
+    timeout = '5s'
+    grace_period = '10s'
+
+[[vm]]
+  memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1

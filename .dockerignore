@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+test
+.env
+.env.*
+*.tsbuildinfo
+.vscode
+.idea
+Dockerfile
+.dockerignore
+fly.toml
+docker-compose.yml
+README.md
