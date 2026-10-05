@@ -1,11 +1,12 @@
-import { Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, VersionColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Generated, PrimaryGeneratedColumn, UpdateDateColumn, VersionColumn } from 'typeorm';
 
 export abstract class AbstractEntity {
 
   @PrimaryGeneratedColumn('identity', { type: 'bigint', generatedIdentity: 'ALWAYS' })
   public id: string;
 
-  @Column({ type: 'uuid', unique: true, default: () => 'gen_random_uuid()' })
+  @Column({ type: 'uuid', unique: true })
+  @Generated('uuid')
   public publicId: string;
 
   @CreateDateColumn({ type: 'timestamptz' })

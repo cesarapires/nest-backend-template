@@ -29,6 +29,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       database: TypeOrmConfigService.DATABASE,
       synchronize: false,
       namingStrategy: new SnakeNamingStrategy(),
+      uuidExtension: 'pgcrypto',
+      installExtensions: false,
       extra: { options: `-c timezone=${TypeOrmConfigService.TIMEZONE}` },
     };
   }
