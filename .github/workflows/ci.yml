@@ -81,3 +81,38 @@ jobs:
 
       - run: docker build -t nest-backend-template .
 
+  postman:
+    name: Postman
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master' && vars.POSTMAN_COLLECTION_UID != ''
+    needs: backend
+    runs-on: ubuntu-latest
+    env:
+      POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+      POSTMAN_COLLECTION_UID: ${{ vars.POSTMAN_COLLECTION_UID }}
+      OPENAPI_TO_POSTMAN_VERSION: 6.3.3
+      LOCAL_BASE_URL: http://localhost:8080
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+
+      - name: Converter o openapi.json em coleção do Postman
+        run: npx --yes openapi-to-postmanv2@${OPENAPI_TO_POSTMAN_VERSION} -s openapi.json -o collection.json -O folderStrategy=Tags,parametersResolution=Example
+
+      - name: Atualizar a coleção no Postman
+        run: |
+          if [ -z "$POSTMAN_API_KEY" ]; then
+            echo "::warning::POSTMAN_API_KEY não configurada; a coleção do Postman não foi atualizada"
+            exit 0
+          fi
+
+          jq --arg baseUrl "$LOCAL_BASE_URL" --slurpfile openapi openapi.json --rawfile autoLogin postman/auto-login.js \
+            -f postman/collection.jq collection.json > payload.json
+
+          curl --fail-with-body --silent --show-error --output response.json \
+            -X PUT "https://api.getpostman.com/collections/${POSTMAN_COLLECTION_UID}" \
+            -H "X-Api-Key: ${POSTMAN_API_KEY}" \
+            -H "Content-Type: application/json" \
+            --data @payload.json || { cat response.json; exit 1; }
