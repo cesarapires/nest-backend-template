@@ -23,6 +23,10 @@ export class LoggerConfig {
     '*.password',
     'apiKey',
     '*.apiKey',
+    'accessToken',
+    '*.accessToken',
+    'refreshToken',
+    '*.refreshToken',
   ];
 
   private static readonly UNLOGGED_PATHS = ['/api/v1/health'];
