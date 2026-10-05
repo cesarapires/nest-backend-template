@@ -1,0 +1,663 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "operationId": "HealthController_check_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "degraded"
+                      ],
+                      "example": "ok"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up",
+                          "responseTime": 12
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "up",
+                              "degraded",
+                              "down"
+                            ]
+                          },
+                          "responseTime": {
+                            "type": "number",
+                            "description": "Time the health indicator took to respond, in ms"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "up",
+                              "degraded",
+                              "down"
+                            ]
+                          },
+                          "responseTime": {
+                            "type": "number",
+                            "description": "Time the health indicator took to respond, in ms"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up",
+                          "responseTime": 12
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "up",
+                              "degraded",
+                              "down"
+                            ]
+                          },
+                          "responseTime": {
+                            "type": "number",
+                            "description": "Time the health indicator took to respond, in ms"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "error",
+                        "shutting_down"
+                      ],
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up",
+                          "responseTime": 12
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "up",
+                              "degraded",
+                              "down"
+                            ]
+                          },
+                          "responseTime": {
+                            "type": "number",
+                            "description": "Time the health indicator took to respond, in ms"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect",
+                          "responseTime": 3005
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "up",
+                              "degraded",
+                              "down"
+                            ]
+                          },
+                          "responseTime": {
+                            "type": "number",
+                            "description": "Time the health indicator took to respond, in ms"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up",
+                          "responseTime": 12
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect",
+                          "responseTime": 3005
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "up",
+                              "degraded",
+                              "down"
+                            ]
+                          },
+                          "responseTime": {
+                            "type": "number",
+                            "description": "Time the health indicator took to respond, in ms"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Verifica se a API e o banco de dados estão no ar",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "operationId": "UsersController_me_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Faça login para continuar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Devolve o usuário logado",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "operationId": "AuthController_register_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "E-mail já cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Cadastra um usuário",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "AuthController_login_v1",
+        "parameters": [
+          {
+            "name": "user-agent",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "E-mail ou senha inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Autentica com e-mail e senha e abre uma sessão",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokensResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sessão inválida ou expirada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Troca o refresh token por um novo par de tokens",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sessão encerrada (ou já inexistente)"
+          }
+        },
+        "summary": "Encerra a sessão do refresh token informado",
+        "tags": [
+          "auth"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "API",
+    "description": "Erros seguem o formato Problem Details (RFC 9457).",
+    "version": "1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "UserResponseDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "USER",
+              "ADMIN"
+            ],
+            "type": "string"
+          },
+          "emailVerifiedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "role",
+          "emailVerifiedAt",
+          "id",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "InvalidField": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "example": "endereco.cep"
+          },
+          "message": {
+            "type": "string",
+            "example": "cep must match /^\\d{8}$/ regular expression"
+          }
+        },
+        "required": [
+          "field",
+          "message"
+        ]
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "object",
+            "example": "about:blank"
+          },
+          "title": {
+            "type": "string",
+            "example": "Bad Request"
+          },
+          "status": {
+            "type": "number",
+            "example": 400
+          },
+          "detail": {
+            "type": "string",
+            "example": "Os dados enviados são inválidos"
+          },
+          "instance": {
+            "type": "string",
+            "example": "/api/v1/auth/register"
+          },
+          "requestId": {
+            "type": "string",
+            "example": "4f1c2b9e-7a3d-4e8f-9c1a-2b3d4e5f6a7b"
+          },
+          "errors": {
+            "description": "Presente apenas em erros de validação (400)",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvalidField"
+            }
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "status",
+          "detail",
+          "instance"
+        ]
+      },
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "format": "email",
+            "example": "novo.usuario@app.local"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 128,
+            "example": "senha-forte-123"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "format": "email",
+            "example": "user@app.local"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "example": "senha-de-dev"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "TokensResponseDto": {
+        "type": "object",
+        "properties": {
+          "tokenType": {
+            "type": "string",
+            "default": "Bearer",
+            "enum": [
+              "Bearer"
+            ]
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "accessTokenExpiresIn": {
+            "type": "number"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "refreshTokenExpiresAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "tokenType",
+          "accessToken",
+          "accessTokenExpiresIn",
+          "refreshToken",
+          "refreshTokenExpiresAt"
+        ]
+      },
+      "RefreshTokenDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "maxLength": 200,
+            "example": "0b6f4c1e-2d6a-4c1f-9a7e-5f2f3b1c9d10.use-o-refresh-token-devolvido-pelo-login"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      }
+    }
+  }
+}
