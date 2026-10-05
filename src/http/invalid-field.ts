@@ -1,7 +1,7 @@
 export class InvalidField {
 
   constructor(
-    readonly field: string,
-    readonly message: string,
+    public readonly field: string,
+    public readonly message: string,
   ) {}
 }

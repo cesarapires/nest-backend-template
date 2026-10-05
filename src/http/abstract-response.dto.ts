@@ -2,11 +2,11 @@ import type { AbstractEntity } from '@/database/abstract-entity.js';
 
 export abstract class AbstractResponseDto {
 
-  readonly id: string;
+  public readonly id: string;
 
-  readonly createdAt: Date;
+  public readonly createdAt: Date;
 
-  readonly updatedAt: Date;
+  public readonly updatedAt: Date;
 
   protected constructor(entity: AbstractEntity) {
     this.id = entity.publicId;

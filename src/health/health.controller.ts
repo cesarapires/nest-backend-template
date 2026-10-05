@@ -13,7 +13,7 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  check(): Promise<HealthCheckResult> {
+  public check(): Promise<HealthCheckResult> {
     return this.health.check([() => this.database.pingCheck(HealthController.DATABASE_KEY)]);
   }
 }

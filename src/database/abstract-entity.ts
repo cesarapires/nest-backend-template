@@ -3,20 +3,20 @@ import { Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, Upd
 export abstract class AbstractEntity {
 
   @PrimaryGeneratedColumn('identity', { type: 'bigint', generatedIdentity: 'ALWAYS' })
-  id: string;
+  public id: string;
 
   @Column({ type: 'uuid', unique: true, default: () => 'gen_random_uuid()' })
-  publicId: string;
+  public publicId: string;
 
   @CreateDateColumn({ type: 'timestamptz' })
-  createdAt: Date;
+  public createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamptz' })
-  updatedAt: Date;
+  public updatedAt: Date;
 
   @DeleteDateColumn({ type: 'timestamptz' })
-  deletedAt: Date | null;
+  public deletedAt: Date | null;
 
   @VersionColumn({ type: 'integer' })
-  version: number;
+  public version: number;
 }

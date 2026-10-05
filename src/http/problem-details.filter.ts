@@ -14,7 +14,7 @@ export class ProblemDetailsFilter implements ExceptionFilter {
 
   private readonly logger = new Logger(ProblemDetailsFilter.name);
 
-  catch(exception: unknown, host: ArgumentsHost): void {
+  public catch(exception: unknown, host: ArgumentsHost): void {
     const request = host.switchToHttp().getRequest<RequestWithId>();
     const response = host.switchToHttp().getResponse<Response>();
     const problem = this.toProblemDetails(exception, request);

@@ -27,7 +27,7 @@ export class LoggerConfig {
 
   private static readonly UNLOGGED_PATHS = ['/api/v1/health'];
 
-  static createParams(): Params {
+  public static createParams(): Params {
     return {
       pinoHttp: {
         level: LoggerConfig.LEVEL,

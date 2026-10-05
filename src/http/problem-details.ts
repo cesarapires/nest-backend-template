@@ -3,19 +3,19 @@ import type { InvalidField } from './invalid-field.js';
 
 export class ProblemDetails {
 
-  readonly type = 'about:blank';
+  public readonly type = 'about:blank';
 
-  readonly title: string;
+  public readonly title: string;
 
-  readonly status: number;
+  public readonly status: number;
 
-  readonly detail: string;
+  public readonly detail: string;
 
-  readonly instance: string;
+  public readonly instance: string;
 
-  readonly requestId?: string;
+  public readonly requestId?: string;
 
-  readonly errors?: InvalidField[];
+  public readonly errors?: InvalidField[];
 
   constructor(status: number, detail: string, instance: string, requestId?: string, errors?: InvalidField[]) {
     this.title = STATUS_CODES[status] ?? 'Error';

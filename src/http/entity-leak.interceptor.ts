@@ -5,7 +5,7 @@ import { AbstractEntity } from '@/database/abstract-entity.js';
 @Injectable()
 export class EntityLeakInterceptor implements NestInterceptor {
 
-  intercept(_context: ExecutionContext, next: CallHandler): Observable<unknown> {
+  public intercept(_context: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(map((body: unknown) => this.assertHasNoEntity(body, new Set())));
   }
 

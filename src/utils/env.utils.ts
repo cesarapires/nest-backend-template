@@ -1,6 +1,6 @@
 export class EnvUtils {
 
-  static getRequired(key: string): string {
+  public static getRequired(key: string): string {
     const value = process.env[key];
 
     if (!value) {
@@ -10,7 +10,7 @@ export class EnvUtils {
     return value;
   }
 
-  static getOptional(key: string, defaultValue: string): string {
+  public static getOptional(key: string, defaultValue: string): string {
     return process.env[key] || defaultValue;
   }
 }

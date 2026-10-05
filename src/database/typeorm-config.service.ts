@@ -19,7 +19,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
   private static readonly TIMEZONE = 'UTC';
 
-  static createConnectionOptions(): PostgresDataSourceOptions {
+  public static createConnectionOptions(): PostgresDataSourceOptions {
     return {
       type: 'postgres',
       host: TypeOrmConfigService.HOST,
@@ -33,7 +33,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     };
   }
 
-  createTypeOrmOptions(): TypeOrmModuleOptions {
+  public createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
       ...TypeOrmConfigService.createConnectionOptions(),
       autoLoadEntities: true,

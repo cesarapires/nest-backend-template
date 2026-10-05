@@ -17,7 +17,7 @@ export class HttpConfig {
 
   private static readonly EXPOSED_HEADERS = ['x-request-id'];
 
-  static apply(app: INestApplication): void {
+  public static apply(app: INestApplication): void {
     app.setGlobalPrefix(HttpConfig.GLOBAL_PREFIX);
     app.enableVersioning({ type: VersioningType.URI, defaultVersion: HttpConfig.DEFAULT_VERSION });
     app.enableCors({ origin: HttpConfig.CORS_ORIGINS, exposedHeaders: HttpConfig.EXPOSED_HEADERS });

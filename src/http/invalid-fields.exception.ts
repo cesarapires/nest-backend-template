@@ -6,11 +6,11 @@ export class InvalidFieldsException extends BadRequestException {
 
   private static readonly DETAIL = 'Os dados enviados são inválidos';
 
-  constructor(readonly fields: InvalidField[]) {
+  constructor(public readonly fields: InvalidField[]) {
     super(InvalidFieldsException.DETAIL);
   }
 
-  static fromValidationErrors(errors: ValidationError[]): InvalidFieldsException {
+  public static fromValidationErrors(errors: ValidationError[]): InvalidFieldsException {
     return new InvalidFieldsException(InvalidFieldsException.flatten(errors, ''));
   }
 
