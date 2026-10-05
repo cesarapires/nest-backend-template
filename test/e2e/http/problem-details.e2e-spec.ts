@@ -12,41 +12,41 @@ class AtletaTesteDto {
 
   @IsString()
   @IsNotEmpty()
-  nome: string;
+  public nome: string;
 
   @Matches(/^\d{11}$/)
-  cpf: string;
+  public cpf: string;
 }
 
 class InscricaoTesteDto {
 
   @IsEmail()
-  email: string;
+  public email: string;
 
   @IsInt()
   @Min(1)
-  quantidade: number;
+  public quantidade: number;
 
   @ValidateNested()
   @Type(() => AtletaTesteDto)
-  atleta: AtletaTesteDto;
+  public atleta: AtletaTesteDto;
 }
 
 @Controller('teste')
 class TesteController {
 
   @Post()
-  criar(@Body() inscricao: InscricaoTesteDto) {
+  public criar(@Body() inscricao: InscricaoTesteDto) {
     return { recebido: inscricao, instanciaDoDto: inscricao instanceof InscricaoTesteDto };
   }
 
   @Get('nao-encontrado')
-  naoEncontrado() {
+  public naoEncontrado() {
     throw new NotFoundException('Evento não encontrado');
   }
 
   @Get('erro-inesperado')
-  erroInesperado() {
+  public erroInesperado() {
     throw new Error('falha interna com senha=123');
   }
 }

@@ -6,7 +6,7 @@ import { TypeOrmConfigService } from '@/database/typeorm-config.service.js';
 class InscricaoTeste extends AbstractEntity {
 
   @Column({ type: 'varchar' })
-  nomeAtleta: string;
+  public nomeAtleta: string;
 }
 
 describe('AbstractEntity (e2e)', () => {

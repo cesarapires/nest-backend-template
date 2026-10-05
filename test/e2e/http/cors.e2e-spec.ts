@@ -8,7 +8,7 @@ import { HttpConfig } from '@/config/http.config.js';
 class TesteCorsController {
 
   @Get()
-  consultar() {
+  public consultar() {
     return { ok: true };
   }
 }

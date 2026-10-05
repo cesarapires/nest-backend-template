@@ -3,14 +3,14 @@ import { AbstractResponseDto } from '@/http/abstract-response.dto.js';
 
 class EventoTeste extends AbstractEntity {
 
-  nome: string;
+  public nome: string;
 
-  cpfOrganizador: string;
+  public cpfOrganizador: string;
 }
 
 class EventoTesteResponseDto extends AbstractResponseDto {
 
-  readonly nome: string;
+  public readonly nome: string;
 
   constructor(evento: EventoTeste) {
     super(evento);

@@ -12,7 +12,7 @@ export class TestDatabase {
 
   private static readonly MIGRATIONS_DIRECTORY = join(import.meta.dirname, '..', '..', 'src', 'database', 'migrations');
 
-  static async prepare(): Promise<void> {
+  public static async prepare(): Promise<void> {
     const options = TypeOrmConfigService.createConnectionOptions();
     const database = String(options.database);
     TestDatabase.assertIsTestDatabase(database);

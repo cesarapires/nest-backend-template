@@ -8,14 +8,14 @@ import { AbstractResponseDto } from '@/http/abstract-response.dto.js';
 
 class AtletaTeste extends AbstractEntity {
 
-  nome: string;
+  public nome: string;
 
-  cpf: string;
+  public cpf: string;
 }
 
 class AtletaTesteResponseDto extends AbstractResponseDto {
 
-  readonly nome: string;
+  public readonly nome: string;
 
   constructor(atleta: AtletaTeste) {
     super(atleta);
@@ -38,12 +38,12 @@ const atleta = Object.assign(new AtletaTeste(), {
 class AtletasTesteController {
 
   @Get('dto')
-  comDto() {
+  public comDto() {
     return new AtletaTesteResponseDto(atleta);
   }
 
   @Get('entidade')
-  comEntidade() {
+  public comEntidade() {
     return atleta;
   }
 }
