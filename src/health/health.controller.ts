@@ -1,7 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HealthCheck, type HealthCheckResult, HealthCheckService, TypeOrmHealthIndicator } from '@nestjs/terminus';
+import { Public } from '@/auth/decorators/public.decorator.js';
 
+@Public()
 @ApiTags('health')
 @Controller('health')
 export class HealthController {
