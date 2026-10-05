@@ -9,5 +9,6 @@ export default defineConfig({
     include: ['test/e2e/**/*.e2e-spec.ts'],
     setupFiles: ['./test/setup/load-test-env.ts'],
     globalSetup: ['./test/setup/test-database.ts'],
+    fileParallelism: false,
   },
 });
