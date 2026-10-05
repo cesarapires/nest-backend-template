@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Type } from 'class-transformer';
 import { IsEmail, IsInt, IsNotEmpty, IsString, Matches, Min, ValidateNested } from 'class-validator';
 import { LoggerModule } from 'nestjs-pino';
+import { QueryFailedError } from 'typeorm';
 import request from 'supertest';
 import { App } from 'supertest/types.js';
 import { HttpConfig } from '@/config/http.config.js';
@@ -43,6 +44,11 @@ class TesteController {
   @Get('nao-encontrado')
   public naoEncontrado() {
     throw new NotFoundException('Evento não encontrado');
+  }
+
+  @Get('registro-duplicado')
+  public registroDuplicado() {
+    throw new QueryFailedError('INSERT INTO "users" ("email") VALUES ($1)', ['ana@exemplo.com'], Object.assign(new Error('duplicate key value'), { code: '23505' }));
   }
 
   @Get('erro-inesperado')
@@ -135,6 +141,13 @@ describe('Problem Details (e2e)', () => {
     const response = await request(app.getHttpServer()).get('/api/v1/teste/nao-encontrado').expect(404);
 
     expect(response.body.detail).toBe('Evento não encontrado');
+  });
+
+  it('deve responder 409 quando o banco barrar um registro duplicado, sem expor o SQL', async () => {
+    const response = await request(app.getHttpServer()).get('/api/v1/teste/registro-duplicado').expect(409);
+
+    expect(response.body).toMatchObject({ status: 409, title: 'Conflict', detail: 'Já existe um registro com esses dados' });
+    expect(JSON.stringify(response.body)).not.toMatch(/INSERT|ana@exemplo.com/);
   });
 
   it('deve responder 500 genérico sem vazar detalhes de erros inesperados', async () => {
