@@ -1,5 +1,6 @@
 import { type ArgumentsHost, Catch, type ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import type { Request, Response } from 'express';
+import { DatabaseError } from '@/database/database-error.js';
 import { InvalidFieldsException } from './invalid-fields.exception.js';
 import { ProblemDetails } from './problem-details.js';
 
@@ -11,6 +12,8 @@ export class ProblemDetailsFilter implements ExceptionFilter {
   private static readonly CONTENT_TYPE = 'application/problem+json';
 
   private static readonly INTERNAL_ERROR_DETAIL = 'Erro interno no servidor';
+
+  private static readonly UNIQUE_VIOLATION_DETAIL = 'Já existe um registro com esses dados';
 
   private readonly logger = new Logger(ProblemDetailsFilter.name);
 
@@ -35,6 +38,10 @@ export class ProblemDetailsFilter implements ExceptionFilter {
 
     if (exception instanceof HttpException) {
       return new ProblemDetails(exception.getStatus(), this.extractDetail(exception), request.originalUrl, requestId);
+    }
+
+    if (DatabaseError.isUniqueViolation(exception)) {
+      return new ProblemDetails(HttpStatus.CONFLICT, ProblemDetailsFilter.UNIQUE_VIOLATION_DETAIL, request.originalUrl, requestId);
     }
 
     return new ProblemDetails(HttpStatus.INTERNAL_SERVER_ERROR, ProblemDetailsFilter.INTERNAL_ERROR_DETAIL, request.originalUrl, requestId);
