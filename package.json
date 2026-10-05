@@ -18,6 +18,8 @@
     "start:prod": "node dist/main",
     "lint": "oxlint --type-aware src/ test/",
     "typecheck": "tsc --noEmit -p tsconfig.json",
+    "openapi:export": "npm run build && node dist/openapi/export-openapi.js",
+    "openapi:check": "npm run openapi:export && git diff --exit-code -- openapi.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
