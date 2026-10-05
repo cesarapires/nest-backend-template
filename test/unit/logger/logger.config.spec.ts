@@ -89,6 +89,12 @@ describe('LoggerConfig', () => {
       expect(output.atleta).toEqual({ nome: 'Ana', cpf: '[Redacted]' });
     });
 
+    it('deve ocultar os tokens de autenticação', () => {
+      const output = log({ accessToken: 'jwt', sessao: { refreshToken: 'opaco' } });
+
+      expect(output).toMatchObject({ accessToken: '[Redacted]', sessao: { refreshToken: '[Redacted]' } });
+    });
+
     it('deve ocultar os cabeçalhos authorization e cookie', () => {
       const output = log({ req: { headers: { authorization: 'Bearer token', cookie: 'session=1', host: 'localhost' } } });
 
