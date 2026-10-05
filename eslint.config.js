@@ -10,6 +10,12 @@ export default tseslint.config(
     languageOptions: {
       parser: tseslint.parser,
     },
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+    },
+    rules: {
+      '@typescript-eslint/explicit-member-accessibility': ['error', { accessibility: 'explicit', overrides: { constructors: 'no-public' } }],
+    },
   },
   stylistic.configs.customize({
     indent: 2,
